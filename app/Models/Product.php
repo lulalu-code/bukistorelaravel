@@ -3,13 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
     use HasFactory;
 
+    /**
+     * The table name.
+     *
+     * @var string
+     */
     protected $table = 'product';
 
     /**
@@ -27,7 +32,7 @@ class Product extends Model
         'width',
         'length',
         'is_customable',
-        'imageURL'
+        'imageURL',
     ];
 
     /**
@@ -35,14 +40,12 @@ class Product extends Model
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'uploaded_date' => 'datetime',
-    ];
 
-    /*
-     * Get the user that owns the produc
-    */
-
+    /**
+     * Get the user that owns the product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_name', 'name');

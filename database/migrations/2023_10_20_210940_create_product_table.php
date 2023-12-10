@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('author_name');
+            $table->foreign('author_name')->references('name')->on('user')->onDelete('cascade');
             $table->string('material');
             $table->string('category');
             $table->decimal('height', 8, 2);
@@ -23,7 +23,6 @@ return new class extends Migration
             $table->decimal('length', 8, 2);
             $table->boolean('is_customable');
             $table->string('imageURL');
-            $table->date('uploaded_date');
             $table->timestamps();
         });
     }

@@ -13,4 +13,84 @@ class ProductController extends Controller
         $products = Product::with('user:name,zone')->get();
         return response()->json($products);
     }
+
+    // Display product by Id
+    public function getProductById($id)
+    {
+        $product = Product::with('user:name,zone')->find($id);
+        return response()->json($product);
+    }
+
+    // Create a new product
+    public function createProduct(Request $request)
+    {
+        /* Give default values to non critical fields */
+        $request->merge([
+            'height' => $request->input('height', 0),
+            'width' => $request->input('width', 0),
+            'length' => $request->input('length', 0),
+            'is_customable' => $request->input('is_customable', false),
+        ]);
+        
+        /* Validate the data */
+        $validatedData = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'author_name' => 'required|string',
+            'material' => 'required|string',
+            'category' => 'required|string',
+            'height' => 'required|integer',
+            'width' => 'required|integer',
+            'length' => 'required|integer',
+            'is_customable' => 'required|boolean',
+            'imageURL' => 'required|string',
+        ]);
+        
+        $user = Product::create($validatedData);
+
+        return response()->json($user, 201);    /* 201 means "Created" */
+    }
+
+    public function updateProduct(Request $request, $id)
+    {
+        /* Look for the product in the database */
+        $product = Product::find($id);
+
+        /* Verify if the product exists */
+        if (!$product) {
+            return response()->json(['error' => 'Producto no encontrado'], 404);
+        }
+
+        /* Validate the data */
+        $validatedData = $request->validate([
+            'title' => 'string',
+            'description' => 'string',
+            'author_name' => 'string',
+            'material' => 'string',
+            'category' => 'string',
+            'height' => 'integer',
+            'width' => 'integer',
+            'length' => 'integer',
+            'is_customable' => 'boolean',
+            'imageURL' => 'string',
+        ]);
+        
+        $product->update($validatedData);
+
+        return response()->json($product, 200);    /* 200 means "OK" */
+    }
+
+    public function deleteProduct($id){
+        /* Look for the product in the database */
+        $product = Product::find($id);
+
+        /* Verify if the product exists */
+        if (!$product) {
+            return response()->json(['error' => 'Producto no encontrado'], 404);
+        }
+
+        $product->delete();
+
+        return response()->json(['message' => 'Producto eliminado correctamente'], 200);
+    }
 }
