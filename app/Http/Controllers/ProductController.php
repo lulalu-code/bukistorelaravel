@@ -37,18 +37,16 @@ class ProductController extends Controller
             'title' => 'required|string',
             'description' => 'required|string',
             'author_name' => 'required|string',
-            'material' => 'required|string',
-            'category' => 'required|string',
-            'height' => 'required|integer',
-            'width' => 'required|integer',
-            'length' => 'required|integer',
+            'height' => 'required|float',
+            'width' => 'required|float',
+            'length' => 'required|float',
             'is_customable' => 'required|boolean',
             'imageURL' => 'required|string',
         ]);
         
-        $user = Product::create($validatedData);
+        $product = Product::create($validatedData);
 
-        return response()->json($user, 201);    /* 201 means "Created" */
+        return response()->json($product, 201);    /* 201 means "Created" */
     }
 
     public function updateProduct(Request $request, $id)
@@ -66,11 +64,10 @@ class ProductController extends Controller
             'title' => 'string',
             'description' => 'string',
             'author_name' => 'string',
-            'material' => 'string',
             'category' => 'string',
-            'height' => 'integer',
-            'width' => 'integer',
-            'length' => 'integer',
+            'height' => 'float',
+            'width' => 'float',
+            'length' => 'float',
             'is_customable' => 'boolean',
             'imageURL' => 'string',
         ]);

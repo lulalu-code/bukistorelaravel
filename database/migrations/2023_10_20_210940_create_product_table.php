@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->foreign('author_name')->references('name')->on('user')->onDelete('cascade');
-            $table->string('material');
             $table->string('category');
             $table->decimal('height', 8, 2);
             $table->decimal('width', 8, 2);

@@ -26,7 +26,6 @@ class Product extends Model
         'title',
         'description',
         'author_name',
-        'material',
         'category',
         'height',
         'width',
