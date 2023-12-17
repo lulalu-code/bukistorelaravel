@@ -15,14 +15,21 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->foreign('author_name')->references('name')->on('user')->onDelete('cascade');
+            $table->string('author_name');
             $table->string('category');
             $table->decimal('height', 8, 2);
             $table->decimal('width', 8, 2);
             $table->decimal('length', 8, 2);
             $table->boolean('is_customable');
             $table->string('imageURL');
+            $table->decimal('price', 8, 2);
             $table->timestamps();
+        });
+
+        Schema::table('product', function (Blueprint $table) {
+
+            $table->foreign('author_name')->references('name')->on('user')->onDelete('cascade');
+
         });
     }
 

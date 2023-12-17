@@ -29,7 +29,9 @@ class ProductController extends Controller
             'height' => $request->input('height', 0),
             'width' => $request->input('width', 0),
             'length' => $request->input('length', 0),
+            'price' => $request->input('price', 0),
             'is_customable' => $request->input('is_customable', false),
+            'category' => $request->input('category', '')
         ]);
         
         /* Validate the data */
@@ -37,11 +39,13 @@ class ProductController extends Controller
             'title' => 'required|string',
             'description' => 'required|string',
             'author_name' => 'required|string',
-            'height' => 'required|float',
-            'width' => 'required|float',
-            'length' => 'required|float',
+            'category' => 'required|string',
+            'height' => 'required|decimal:0,2',
+            'width' => 'required|decimal:0,2',
+            'length' => 'required|decimal:0,2',
             'is_customable' => 'required|boolean',
             'imageURL' => 'required|string',
+            'price' => 'required|decimal:0,2',
         ]);
         
         $product = Product::create($validatedData);
@@ -65,11 +69,12 @@ class ProductController extends Controller
             'description' => 'string',
             'author_name' => 'string',
             'category' => 'string',
-            'height' => 'float',
-            'width' => 'float',
-            'length' => 'float',
+            'height' => 'decimal:0,2',
+            'width' => 'decimal:0,2',
+            'length' => 'decimal:0,2',
             'is_customable' => 'boolean',
             'imageURL' => 'string',
+            'price' => 'decimal:0,2',
         ]);
         
         $product->update($validatedData);

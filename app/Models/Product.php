@@ -32,6 +32,7 @@ class Product extends Model
         'length',
         'is_customable',
         'imageURL',
+        'price'
     ];
 
     /**
