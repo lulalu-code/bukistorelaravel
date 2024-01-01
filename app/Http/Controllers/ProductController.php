@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Product;
 
 class ProductController extends Controller
@@ -24,31 +25,28 @@ class ProductController extends Controller
     // Create a new product
     public function createProduct(Request $request)
     {
-        /* Give default values to non critical fields */
-        $request->merge([
-            'height' => $request->input('height', 0),
-            'width' => $request->input('width', 0),
-            'length' => $request->input('length', 0),
-            'price' => $request->input('price', 0),
-            'is_customable' => $request->input('is_customable', false),
-            'category' => $request->input('category', '')
-        ]);
-        
+
+        $body = json_decode($request->getContent(), true);
+
         /* Validate the data */
-        $validatedData = $request->validate([
+        $validator = Validator::make($body, [
             'title' => 'required|string',
             'description' => 'required|string',
             'author_name' => 'required|string',
             'category' => 'required|string',
-            'height' => 'required|decimal:0,2',
-            'width' => 'required|decimal:0,2',
-            'length' => 'required|decimal:0,2',
+            'cm_height' => 'required|decimal:0,2',
+            'cm_width' => 'required|decimal:0,2',
+            'cm_length' => 'required|decimal:0,2',
             'is_customable' => 'required|boolean',
-            'imageURL' => 'required|string',
-            'price' => 'required|decimal:0,2',
+            'imageURL' => 'string',
+            'price' => 'required|decimal:0,2'
         ]);
-        
-        $product = Product::create($validatedData);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422); // 422 means "Unprocessable Entity"
+        }
+
+        $product = Product::create($body)->save();
 
         return response()->json($product, 201);    /* 201 means "Created" */
     }
@@ -63,21 +61,27 @@ class ProductController extends Controller
             return response()->json(['error' => 'Producto no encontrado'], 404);
         }
 
+        $body = json_decode($request->getContent(), true);
+
         /* Validate the data */
-        $validatedData = $request->validate([
+        $validator = Validator::make($body, [
             'title' => 'string',
             'description' => 'string',
             'author_name' => 'string',
             'category' => 'string',
-            'height' => 'decimal:0,2',
-            'width' => 'decimal:0,2',
-            'length' => 'decimal:0,2',
+            'cm_height' => 'decimal:0,2',
+            'cm_width' => 'decimal:0,2',
+            'cm_length' => 'decimal:0,2',
             'is_customable' => 'boolean',
             'imageURL' => 'string',
             'price' => 'decimal:0,2',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422); // 422 means "Unprocessable Entity"
+        }
         
-        $product->update($validatedData);
+        $product->update($body);
 
         return response()->json($product, 200);    /* 200 means "OK" */
     }

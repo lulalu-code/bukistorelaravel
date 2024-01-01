@@ -17,9 +17,9 @@ return new class extends Migration
             $table->text('description');
             $table->string('author_name');
             $table->string('category');
-            $table->decimal('height', 8, 2);
-            $table->decimal('width', 8, 2);
-            $table->decimal('length', 8, 2);
+            $table->decimal('cm_height', 8, 2);
+            $table->decimal('cm_width', 8, 2);
+            $table->decimal('cm_length', 8, 2);
             $table->boolean('is_customable');
             $table->string('imageURL');
             $table->decimal('price', 8, 2);

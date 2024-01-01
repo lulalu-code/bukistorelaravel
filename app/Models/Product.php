@@ -27,9 +27,9 @@ class Product extends Model
         'description',
         'author_name',
         'category',
-        'height',
-        'width',
-        'length',
+        'cm_height',
+        'cm_width',
+        'cm_length',
         'is_customable',
         'imageURL',
         'price'

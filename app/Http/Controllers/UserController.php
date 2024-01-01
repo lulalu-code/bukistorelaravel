@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 
@@ -25,15 +26,21 @@ class UserController extends Controller
     // Create a new user
     public function createUser(Request $request)
     {
+        $body = json_decode($request->getContent(), true);
+
         /* Validate the data */
-        $validatedData = $request->validate([
+        $validator = Validator::make($body, [
             'name' => 'required|string|unique:user',
             'email' => 'required|email|unique:user',
             'password' => 'required|string',
             'zone' => 'required|string',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422); // 422 means "Unprocessable Entity"
+        }
         
-        $user = User::create($validatedData);
+        $user = User::create($body);
 
         return response()->json($user, 201);    /* 201 means "Created" */
     }
@@ -41,6 +48,8 @@ class UserController extends Controller
     // Update an existing user
     public function updateUser(Request $request, $name)
     {
+        $body = json_decode($request->getContent(), true);
+
         /* Look for the user in the database */
         $user = User::where('name', $name)->first();
 
@@ -50,7 +59,7 @@ class UserController extends Controller
         }
 
         /* Validate the data */
-        $validatedData = $request->validate([
+        $validator = Validator::make($body, [
             'name' => [
                 'string',
                 'required',
@@ -64,8 +73,12 @@ class UserController extends Controller
             'password' => 'string',
             'zone' => 'string',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422); // 422 means "Unprocessable Entity"
+        }
         
-        $user->update($validatedData);
+        $user->update($body);
 
         return response()->json($user, 200);    /* 200 means "OK" */
     }
