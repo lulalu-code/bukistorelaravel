@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -95,6 +97,41 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['message' => 'Usuario eliminado correctamente'], 200);
+    }
+
+
+    public function login(Request $request) {
+
+        $body = json_decode($request->getContent(), true);
+
+        $validator = Validator::make($body, [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422); // 422 means "Unprocessable Entity"
+        }
+
+        $user = User::where('email', $body['email'])->first();
+
+        if (! $user || ! Hash::check($body['password'], $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+     
+        $token = $user->createToken('Auth Token');
+        return ['token' => $token->plainTextToken];
+        //$request->user()->createToken($request->token_name);
+     
+    }
+
+    public function logout(Request $request) {
+        $user = $request->user();
+
+        $user->tokens()->delete();
+
     }
     
 }
