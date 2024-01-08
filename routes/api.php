@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 
 /*
@@ -21,9 +22,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', [UserController::class, 'createUser']);
+/*Route::post('/register', [UserController::class, 'createUser']);
 Route::post('/login', [UserController::class, 'login']);
-Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/logout', [UserController::class, 'logout']);*/
+
+Route::post('/register', [AuthController::class, 'createUser']);
+Route::post('/login', [AuthController::class, 'loginUser']);
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logoutUser']);
 
 /* Return data */
 //Route::get('/users', [UserController::class, 'index']);

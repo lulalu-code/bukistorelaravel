@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -128,9 +129,17 @@ class UserController extends Controller
     }
 
     public function logout(Request $request) {
-        $user = $request->user();
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        $user = Auth::user();
 
         $user->tokens()->delete();
+
+        return redirect('/');
 
     }
     
