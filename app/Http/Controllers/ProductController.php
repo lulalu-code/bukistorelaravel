@@ -22,6 +22,12 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
+    /*public function getProductsByAuthorName($author_name)
+    {
+        $product = Product::where('author_name', $author_name)->get();
+        return response()->json($product);
+    }*/
+
     // Create a new product
     public function createProduct(Request $request)
     {

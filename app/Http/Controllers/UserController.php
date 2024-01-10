@@ -22,7 +22,7 @@ class UserController extends Controller
     // Display user by name
     public function getUserByName($name)
     {
-        $user = User::with('products')->where('name', $name)->get();
+        $user = User::with('products')->where('name', $name)->first()->makeHidden(['email_verified_at','created_at','updated_at']);
         return response()->json($user);
     }
 

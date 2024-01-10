@@ -34,7 +34,8 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logo
 //Route::get('/users', [UserController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'getProductById']);
-//Route::get('/users/{name}', [UserController::class, 'getUserByName']);
+//Route::get('/{author_name}/products', [ProductController::class, 'getProductsByAuthorName']);
+Route::get('/users/{name}', [UserController::class, 'getUserByName']);
 
 /* Create a new user */
 //Route::post('/users', [UserController::class, 'createUser']);
