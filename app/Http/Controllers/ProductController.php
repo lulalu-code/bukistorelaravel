@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Product;
+use Intervention\Image\ImageManager as Image;
+use Intervention\Image\Drivers\Imagick\Driver;
 
 class ProductController extends Controller
 {
@@ -33,6 +35,11 @@ class ProductController extends Controller
     {
 
         $body = json_decode($request->getContent(), true);
+        $imageString = $body['imageURL']['value']; // https://codea.app/blog/subir-imagenes-con-laravel
+        $imageName = "img/" . $body['imageURL']['filename'];
+        $body['imageURL'] = $body['imageURL']['filename']; // Falta hacer punto 5 de: https://codea.app/blog/subir-imagenes-con-laravel
+
+        file_put_contents(public_path($imageName), base64_decode($imageString)); // https://nehalist.io/uploading-files-in-angular2/
 
         /* Validate the data */
         $validator = Validator::make($body, [
@@ -51,6 +58,19 @@ class ProductController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422); // 422 means "Unprocessable Entity"
         }
+
+        /*if($request->hasFile("image")){
+
+            $imageFile = $request->file("image"); // Get the image file from the request          
+            $imagename = $imageFile->getClientOriginalName(); // Get the original image name
+            $body->imageURL = $imagename; // Set the image orignal name inside the imageURL attribute
+
+            $route = public_path("img/post/"); // Route to save the image
+            $manager = new Image(new Driver()); // Instantiate a new Image object
+            $image = $manager->read($imageFile->getRealPath()); // Read image from filesystem
+            $image->save($route); // Save the image inside the public/img/post folder
+            
+        }*/
 
         $product = Product::create($body)->save();
 
