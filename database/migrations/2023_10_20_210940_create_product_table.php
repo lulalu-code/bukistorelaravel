@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('cm_width', 8, 2);
             $table->decimal('cm_length', 8, 2);
             $table->boolean('is_customable');
-            $table->string('imageURL');
+            $table->longText('imageURL');
             $table->decimal('price', 8, 2);
             $table->timestamps();
         });

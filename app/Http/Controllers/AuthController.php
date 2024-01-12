@@ -22,8 +22,10 @@ class AuthController extends Controller
     public function createUser(Request $request)
     {
         try {
+            $body = json_decode($request->getContent(), true);
+
             //Validate the data
-            $validateUser = Validator::make($request->all(), 
+            $validateUser = Validator::make($body, 
             [
                 'name' => 'required|string|unique:user',
                 'email' => 'required|email|unique:user',
@@ -39,7 +41,10 @@ class AuthController extends Controller
                 ], 401);
             }
 
-            $user = User::create($request->all());
+            $imageData = 'data:' . $body['profile_image']['filetype'] . ';base64,' . $body['profile_image']['value'];
+            $body['profile_image'] = $imageData;
+
+            $user = User::create($body);
 
             Auth::login($user);
 

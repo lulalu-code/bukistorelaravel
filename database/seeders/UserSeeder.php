@@ -14,24 +14,43 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Bimbo',
-            'email' => 'bimbo@bimbo.com',
-            'password' => 'xxx',
-            'zone' => 'El Vendrell'
+            'name' => 'User1',
+            'email' => 'user1@buki.com',
+            'password' => '11111111',
+            'zone' => 'Barcelona',
+            'profile_image' => 'https://cdn.pixabay.com/photo/2020/06/30/10/23/icon-5355896_1280.png',
         ]);
 
         User::create([
-            'name' => 'Muami',
-            'email' => 'muami@bimbo.com',
-            'password' => 'xxx',
-            'zone' => 'La Garrotxa'
+            'name' => 'User2',
+            'email' => 'user2@buki.com',
+            'password' => '22222222',
+            'zone' => 'Barcelona',
+            'profile_image' => 'https://cdn.pixabay.com/photo/2020/06/30/10/23/icon-5355896_1280.png',
         ]);
 
         User::create([
-            'name' => 'Lulu',
-            'email' => 'lulu@bimbo.com',
-            'password' => 'xxx',
-            'zone' => 'Bendrell'
+            'name' => 'User3',
+            'email' => 'user3@buki.com',
+            'password' => '33333333',
+            'zone' => 'Barcelona',
+            'profile_image' => 'https://cdn.pixabay.com/photo/2020/06/30/10/23/icon-5355896_1280.png',
+        ]);
+
+        User::create([
+            'name' => 'User4',
+            'email' => 'user4@buki.com',
+            'password' => '44444444',
+            'zone' => 'Madrid',
+            'profile_image' => 'https://cdn.pixabay.com/photo/2020/06/30/10/23/icon-5355896_1280.png',
+        ]);
+
+        User::create([
+            'name' => 'User5',
+            'email' => 'user5@buki.com',
+            'password' => '55555555',
+            'zone' => 'Andalusia',
+            'profile_image' => 'https://cdn.pixabay.com/photo/2020/06/30/10/23/icon-5355896_1280.png',
         ]);
     }
 }

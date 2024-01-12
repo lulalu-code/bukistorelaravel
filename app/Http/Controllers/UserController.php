@@ -30,6 +30,8 @@ class UserController extends Controller
     public function createUser(Request $request)
     {
         $body = json_decode($request->getContent(), true);
+        $imageData = 'data:' . $body['profile_image']['filetype'] . ';base64,' . $body['profile_image']['value'];
+        $body['profile_image'] = $imageData;
 
         /* Validate the data */
         $validator = Validator::make($body, [
@@ -51,7 +53,6 @@ class UserController extends Controller
     // Update an existing user
     public function updateUser(Request $request, $name)
     {
-        $body = json_decode($request->getContent(), true);
 
         /* Look for the user in the database */
         $user = User::where('name', $name)->first();
@@ -60,6 +61,10 @@ class UserController extends Controller
         if (!$user) {
             return response()->json(['error' => 'Usuario no encontrado'], 404);
         }
+
+        $body = json_decode($request->getContent(), true);
+        $imageData = 'data:' . $body['profile_image']['filetype'] . ';base64,' . $body['profile_image']['value'];
+        $body['profile_image'] = $imageData;
 
         /* Validate the data */
         $validator = Validator::make($body, [

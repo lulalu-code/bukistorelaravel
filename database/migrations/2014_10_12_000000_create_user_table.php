@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('zone');
+            $table->longText('profile_image');
             $table->timestamps();
         });
     }

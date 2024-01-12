@@ -36,10 +36,12 @@ class ProductController extends Controller
 
         $body = json_decode($request->getContent(), true);
         $imageString = $body['imageURL']['value']; // https://codea.app/blog/subir-imagenes-con-laravel
-        $imageName = "img/" . $body['imageURL']['filename'];
-        $body['imageURL'] = $body['imageURL']['filename']; // Falta hacer punto 5 de: https://codea.app/blog/subir-imagenes-con-laravel
+        $imageType = $body['imageURL']['filetype'];
+        $imageData = 'data:' . $imageType . ';base64,' . $imageString;
+        //$imageName = "img/" . $body['imageURL']['filename'];
+        $body['imageURL'] = $imageData; // Falta hacer punto 5 de: https://codea.app/blog/subir-imagenes-con-laravel
 
-        file_put_contents(public_path($imageName), base64_decode($imageString)); // https://nehalist.io/uploading-files-in-angular2/
+        //file_put_contents(public_path($imageName), base64_decode($imageString)); // https://nehalist.io/uploading-files-in-angular2/
 
         /* Validate the data */
         $validator = Validator::make($body, [
@@ -51,7 +53,6 @@ class ProductController extends Controller
             'cm_width' => 'required|decimal:0,2',
             'cm_length' => 'required|decimal:0,2',
             'is_customable' => 'required|boolean',
-            'imageURL' => 'string',
             'price' => 'required|decimal:0,2'
         ]);
 
@@ -60,7 +61,6 @@ class ProductController extends Controller
         }
 
         /*if($request->hasFile("image")){
-
             $imageFile = $request->file("image"); // Get the image file from the request          
             $imagename = $imageFile->getClientOriginalName(); // Get the original image name
             $body->imageURL = $imagename; // Set the image orignal name inside the imageURL attribute
@@ -69,7 +69,6 @@ class ProductController extends Controller
             $manager = new Image(new Driver()); // Instantiate a new Image object
             $image = $manager->read($imageFile->getRealPath()); // Read image from filesystem
             $image->save($route); // Save the image inside the public/img/post folder
-            
         }*/
 
         $product = Product::create($body)->save();
@@ -89,6 +88,13 @@ class ProductController extends Controller
 
         $body = json_decode($request->getContent(), true);
 
+        if (array_key_exists('value', $body['imageURL'])) {
+            $imageString = $body['imageURL']['value']; 
+            $imageType = $body['imageURL']['filetype'];
+            $imageData = 'data:' . $imageType . ';base64,' . $imageString;
+            $body['imageURL'] = $imageData;
+        }
+
         /* Validate the data */
         $validator = Validator::make($body, [
             'title' => 'string',
@@ -99,7 +105,6 @@ class ProductController extends Controller
             'cm_width' => 'decimal:0,2',
             'cm_length' => 'decimal:0,2',
             'is_customable' => 'boolean',
-            'imageURL' => 'string',
             'price' => 'decimal:0,2',
         ]);
 
