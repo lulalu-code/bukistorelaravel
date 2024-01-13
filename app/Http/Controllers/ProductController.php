@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use ArrayObject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Product;
@@ -88,8 +89,8 @@ class ProductController extends Controller
 
         $body = json_decode($request->getContent(), true);
 
-        if (array_key_exists('value', $body['imageURL'])) {
-            $imageString = $body['imageURL']['value']; 
+        if ($body['imageURL'] instanceof ArrayObject && array_key_exists('value', $body['imageURL'])) { // Check if the image is arriving as a new image object or as a string
+            $imageString = $body['imageURL']['value'];
             $imageType = $body['imageURL']['filetype'];
             $imageData = 'data:' . $imageType . ';base64,' . $imageString;
             $body['imageURL'] = $imageData;
