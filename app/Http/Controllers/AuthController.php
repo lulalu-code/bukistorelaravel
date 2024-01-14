@@ -14,17 +14,13 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
-    /**
-     * Create User
-     * @param Request $request
-     * @return User 
-     */
+    // Create a New User
     public function createUser(Request $request)
     {
         try {
             $body = json_decode($request->getContent(), true);
 
-            //Validate the data
+            // Validate the data
             $validateUser = Validator::make($body, 
             [
                 'name' => 'required|string|unique:user',
@@ -41,39 +37,38 @@ class AuthController extends Controller
                 ], 401);
             }
 
+            // Process the image -> transform it to base64
             $imageData = 'data:' . $body['profile_image']['filetype'] . ';base64,' . $body['profile_image']['value'];
             $body['profile_image'] = $imageData;
 
+            // Create the user in the database
             $user = User::create($body);
 
+            // Authenticate the user
             Auth::login($user);
 
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
                 'token' => $user->createToken("AUTH TOKEN")->plainTextToken
-            ], 200);
+            ], 201);    /* 201 means "Created" */
 
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ], 500);    /* 500 means "Internal Server Error" */
         }
     }
 
-    /**
-     * Login The User
-     * @param Request $request
-     * @return User
-     */
+    // Login the user
     public function loginUser(Request $request)
     {
 
         $body = json_decode($request->getContent(), true);
 
         try {
-
+            // Validate the data
             $validateUser = Validator::make($body, [
                 'email' => 'required|email',
                 'password' => 'required',
@@ -87,6 +82,7 @@ class AuthController extends Controller
                 ], 401);
             }
 
+            // Return error in case the authentication fails
             if(!Auth::attempt($body)){
                 return response()->json([
                     'status' => false,
@@ -94,16 +90,19 @@ class AuthController extends Controller
                 ], 401);
             }
 
+            // Look for the user in the database
             $user = User::where('email', $body['email'])->first();
 
+            // Check user's credentials
             if (! $user || ! Hash::check($body['password'], $user->password)) {
                 throw ValidationException::withMessages([
                     'email' => ['The provided credentials are incorrect.'],
                 ]);
-            } else {
-                //$request->session()->regenerate();
-            }
+            } /*else {
+                $request->session()->regenerate();
+            }*/
 
+            // Create authentication token for the user and return it 
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
@@ -119,20 +118,29 @@ class AuthController extends Controller
         }
     }
 
+    // Logout the user
     public function logoutUser(Request $request) {
+
+        try {
             //$request->user()->tokens()->delete();
 
-        // Get bearer token from the request
-        $accessToken = $request->bearerToken();
-        
-        // Get access token from database
-        $token = PersonalAccessToken::findToken($accessToken);
+            // Get bearer token from the request
+            $accessToken = $request->bearerToken();
+            
+            // Get access token from database
+            $token = PersonalAccessToken::findToken($accessToken);
 
-        // Revoke token
-        $token->delete();
+            // Revoke token
+            $token->delete();
 
-        //Auth::user()->tokens()->delete();
-        $request->user()->currentAccessToken()->delete();
+            //Auth::user()->tokens()->delete();
+            $request->user()->currentAccessToken()->delete();
 
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);    /* 500 means "Internal Server Error" */
+        }
     }
 }

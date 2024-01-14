@@ -22,32 +22,28 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-/*Route::post('/register', [UserController::class, 'createUser']);
-Route::post('/login', [UserController::class, 'login']);
-Route::post('/logout', [UserController::class, 'logout']);*/
-
-Route::post('/register', [AuthController::class, 'createUser']);
+/* Login */
 Route::post('/login', [AuthController::class, 'loginUser']);
+/* Logout */
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logoutUser']);
 
+/* Create a user */
+Route::post('/register', [AuthController::class, 'createUser']);
+/* Update a user */
+Route::middleware('auth:sanctum')->put('/users/{name}', [UserController::class, 'updateUser']);
+/* Delete a user */
+Route::middleware('auth:sanctum')->delete('/users/{name}', [UserController::class, 'deleteUser']);
+
 /* Return data */
-//Route::get('/users', [UserController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'getProductById']);
 //Route::get('/{author_name}/products', [ProductController::class, 'getProductsByAuthorName']);
 Route::get('/users/{name}', [UserController::class, 'getUserByName']);
 
-/* Create a new user */
-//Route::post('/users', [UserController::class, 'createUser']);
+
 /* Create a new product */
 Route::middleware('auth:sanctum')->post('/products', [ProductController::class, 'createProduct']);
-
-/* Update a user */
-Route::put('/users/{name}', [UserController::class, 'updateUser']);
-/* Update a user */
+/* Update a product */
 Route::middleware('auth:sanctum')->put('/products/{id}', [ProductController::class, 'updateProduct']);
-
-/* Delete a user */
-Route::delete('/users/{name}', [UserController::class, 'deleteUser']);
 /* Delete a product */
 Route::middleware('auth:sanctum')->delete('/products/{id}', [ProductController::class, 'deleteProduct']);
