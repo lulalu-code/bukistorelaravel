@@ -48,6 +48,7 @@ class AuthController extends Controller
             Auth::login($user);
 
             return response()->json([
+                'author_name' => $user->name,
                 'status' => true,
                 'message' => 'User Created Successfully',
                 'token' => $user->createToken("AUTH TOKEN")->plainTextToken
@@ -56,7 +57,7 @@ class AuthController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], 500);    /* 500 means "Internal Server Error" */
         }
     }
