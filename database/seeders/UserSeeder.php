@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             'name' => 'User2',
             'email' => 'user2@buki.com',
             'password' => '22222222',
-            'zone' => 'Barcelona',
+            'zone' => 'Tarragona',
             'profile_image' => 'https://cdn.pixabay.com/photo/2020/06/30/10/23/icon-5355896_1280.png',
         ]);
 
@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
             'name' => 'User3',
             'email' => 'user3@buki.com',
             'password' => '33333333',
-            'zone' => 'Barcelona',
+            'zone' => 'Girona',
             'profile_image' => 'https://cdn.pixabay.com/photo/2020/06/30/10/23/icon-5355896_1280.png',
         ]);
 
@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
             'name' => 'User5',
             'email' => 'user5@buki.com',
             'password' => '55555555',
-            'zone' => 'Andalusia',
+            'zone' => 'Málaga',
             'profile_image' => 'https://cdn.pixabay.com/photo/2020/06/30/10/23/icon-5355896_1280.png',
         ]);
     }

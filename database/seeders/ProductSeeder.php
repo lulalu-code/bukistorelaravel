@@ -15,8 +15,8 @@ class ProductSeeder extends Seeder
     {
 
         Product::create([
-            "title" => "Cesta de bambù",
-            "description" => " Cesta de bambù mimbre",
+            "title" => "Cesta de bambú",
+            "description" => " Cesta de bambú mimbre",
             "author_name" => "User1",
             "category" => "Decoración",
             "cm_height" => "20",
@@ -29,7 +29,7 @@ class ProductSeeder extends Seeder
 
         Product::create([
             "title" => "Jarra",
-            "description" => "Jarra de poterìa",
+            "description" => "Jarra de potería",
             "author_name" => "User2",
             "category" => "Decoración",
             "cm_height" => "10",
@@ -67,16 +67,16 @@ class ProductSeeder extends Seeder
         ]);
 
         Product::create([
-            "title" => "Cromos",
-            "description" => "Liga F",
+            "title" => "Colgador",
+            "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed leo tortor blandit.",
             "author_name" => "User4",
-            "category" => "Juguetes",
+            "category" => "Madera",
             "cm_height" => "10",
             "cm_width" => "5",
             "cm_length" => "0",
-            "is_customable" => false,
+            "is_customable" => true,
             "imageURL" => "https://img.freepik.com/foto-gratis/dando-toques-finales-ilustraciones_1098-18131.jpg?w=1060&t=st=1705058821~exp=1705059421~hmac=3a969ecbf746348da3cd1a03199c57e39f2a96e208055945625a326950a0ef41",
-            "price" => "5"
+            "price" => "29"
         ]);
 
         Product::create([
@@ -93,53 +93,53 @@ class ProductSeeder extends Seeder
         ]);
 
         Product::create([
-            "title" => "Cromos",
-            "description" => "Liga F",
+            "title" => "Mueble recibidor",
+            "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed leo tortor blandit.",
             "author_name" => "User1",
-            "category" => "Juguetes",
-            "cm_height" => "10",
-            "cm_width" => "5",
-            "cm_length" => "0",
+            "category" => "Muebles",
+            "cm_height" => "80",
+            "cm_width" => "140",
+            "cm_length" => "40",
             "is_customable" => false,
             "imageURL" => "https://img.freepik.com/foto-gratis/colorida-decoracion-recuerdo-simbolo-amor-cristianismo-generada-ia_188544-24535.jpg?w=1380&t=st=1705058826~exp=1705059426~hmac=8d970f9b6a9b4905ec2807af6e5f9931d4ee446f66bb0b1cbdbd62ed38826046",
-            "price" => "5"
+            "price" => "250"
         ]);
 
         Product::create([
-            "title" => "Cromos",
-            "description" => "Liga F",
+            "title" => "Pintura",
+            "description" => "Pintura amarilla de decoración.",
             "author_name" => "User2",
-            "category" => "Juguetes",
+            "category" => "Decoración",
             "cm_height" => "10",
             "cm_width" => "5",
             "cm_length" => "0",
-            "is_customable" => false,
+            "is_customable" => true,
             "imageURL" => "https://img.freepik.com/foto-gratis/cerrar-manos-pintura-amarilla_23-2148944918.jpg?w=1060&t=st=1705058827~exp=1705059427~hmac=bcc3f87f1bcf717b19eda61777335b7e3c6b2078ba02f5df88d2559ab6800dfc",
-            "price" => "5"
+            "price" => "50"
         ]);
 
         Product::create([
-            "title" => "Cromos",
-            "description" => "Liga F",
+            "title" => "Llavero",
+            "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed leo tortor blandit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed leo tortor blandit.",
             "author_name" => "User3",
-            "category" => "Juguetes",
+            "category" => "Accesorios",
             "cm_height" => "10",
             "cm_width" => "5",
             "cm_length" => "0",
             "is_customable" => false,
             "imageURL" => "https://img.freepik.com/foto-gratis/joyas-hechas-mano-piedras-preciosas_181624-59159.jpg?w=740&t=st=1705059124~exp=1705059724~hmac=5d677856183f105e8f2126e3a052319923fe641fdb1217bb98141d0b6dfac5fa",
-            "price" => "5"
+            "price" => "15"
         ]);
 
         Product::create([
-            "title" => "Cromos",
-            "description" => "Liga F",
+            "title" => "Bol de cerámica",
+            "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed leo tortor blandit.",
             "author_name" => "User2",
-            "category" => "Juguetes",
+            "category" => "Cerámica",
             "cm_height" => "10",
             "cm_width" => "5",
             "cm_length" => "0",
-            "is_customable" => false,
+            "is_customable" => true,
             "imageURL" => "https://img.freepik.com/foto-gratis/dando-toques-finales-ilustraciones_1098-18131.jpg?w=1060&t=st=1705058821~exp=1705059421~hmac=3a969ecbf746348da3cd1a03199c57e39f2a96e208055945625a326950a0ef41",
             "price" => "5"
         ]);
@@ -171,29 +171,16 @@ class ProductSeeder extends Seeder
         ]);
 
         Product::create([
-            "title" => "Wagon",
-            "description" => "De Tren.",
+            "title" => "Paragüero",
+            "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed leo tortor blandit.",
             "author_name" => "User1",
-            "category" => "Transporte",
-            "cm_height" => "3000",
-            "cm_width" => "2000",
-            "cm_length" => "6000",
-            "is_customable" => false,
-            "imageURL" => "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/001015_gauge_buster.jpg/300px-001015_gauge_buster.jpg",
-            "price" => "3000"
-        ]);
-
-        Product::create([
-            "title" => "Cromos",
-            "description" => "Liga F",
-            "author_name" => "User1",
-            "category" => "Juguetes",
-            "cm_height" => "10",
-            "cm_width" => "5",
-            "cm_length" => "0",
+            "category" => "Muebles",
+            "cm_height" => "50",
+            "cm_width" => "20",
+            "cm_length" => "20",
             "is_customable" => false,
             "imageURL" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEdh_MatetdMuEmTIhf3Cl3VC-Fn2BHr5xtHWix5NRQaqRL8tQideHA387iWtoPyBb-4A&usqp=CAU",
-            "price" => "5"
+            "price" => "40"
         ]);
 
     }
