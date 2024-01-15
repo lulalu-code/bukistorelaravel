@@ -48,14 +48,12 @@ class UserController extends Controller
             $body = json_decode($request->getContent(), true);
 
             // Process image as it can arrive as a new image object or as a string
-            if ($body['profile_image'] instanceof ArrayObject && array_key_exists('value', $body['profile_image'])) { // Check if the image is arriving as a new image object or as a string
+            //if ($body['profile_image'] instanceof ArrayObject && array_key_exists('value', $body['profile_image'])) {
+            if (!is_string($body['profile_image']) && array_key_exists('value', $body['profile_image'])) { // Check if the image is arriving as a new image object or as a string
                 $imageString = $body['profile_image']['value'];
                 $imageType = $body['profile_image']['filetype'];
                 $imageData = 'data:' . $imageType . ';base64,' . $imageString;
                 $body['profile_image'] = $imageData;
-            }
-            if(!is_string($body['profile_image'])) {
-                $body['profile_image'] = null;
             }
 
             // Validate the data
