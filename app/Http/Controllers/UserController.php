@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use ArrayObject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -55,6 +53,9 @@ class UserController extends Controller
                 $imageType = $body['profile_image']['filetype'];
                 $imageData = 'data:' . $imageType . ';base64,' . $imageString;
                 $body['profile_image'] = $imageData;
+            }
+            if(!is_string($body['profile_image'])) {
+                $body['profile_image'] = null;
             }
 
             // Validate the data
@@ -116,7 +117,7 @@ class UserController extends Controller
             $user->delete();
 
             return response()->json(['message' => 'Usuario eliminado correctamente'], 200);
-            
+
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,

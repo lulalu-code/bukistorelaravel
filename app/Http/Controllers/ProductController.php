@@ -54,14 +54,6 @@ class ProductController extends Controller
 
             $body = json_decode($request->getContent(), true);
 
-            // Process image data  -> transform it to base64
-            $imageString = $body['imageURL']['value']; // https://codea.app/blog/subir-imagenes-con-laravel
-            $imageType = $body['imageURL']['filetype'];
-            $imageData = 'data:' . $imageType . ';base64,' . $imageString;
-            $body['imageURL'] = $imageData; // Falta hacer punto 5 de: https://codea.app/blog/subir-imagenes-con-laravel
-
-            //file_put_contents(public_path($imageName), base64_decode($imageString)); // https://nehalist.io/uploading-files-in-angular2/
-
             // Validate the data
             $validator = Validator::make($body, [
                 'title' => 'required|string',
@@ -72,12 +64,19 @@ class ProductController extends Controller
                 'cm_width' => 'required|decimal:0,2',
                 'cm_length' => 'required|decimal:0,2',
                 'is_customable' => 'required|boolean',
-                'price' => 'required|decimal:0,2'
+                'price' => 'required|decimal:0,2',
+                'imageURL' => 'required',
             ]);
 
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422); // 422 means "Unprocessable Entity"
             }
+
+            // Process image data  -> transform it to base64
+            $imageString = $body['imageURL']['value']; // https://codea.app/blog/subir-imagenes-con-laravel
+            $imageType = $body['imageURL']['filetype'];
+            $imageData = 'data:' . $imageType . ';base64,' . $imageString;
+            $body['imageURL'] = $imageData; // Falta hacer punto 5 de: https://codea.app/blog/subir-imagenes-con-laravel
 
             /*if($request->hasFile("image")){
                 $imageFile = $request->file("image"); // Get the image file from the request          
@@ -117,14 +116,6 @@ class ProductController extends Controller
 
             $body = json_decode($request->getContent(), true);
 
-            // Process image as it can arrive as a new image object or as a string
-            if ($body['imageURL'] instanceof ArrayObject && array_key_exists('value', $body['imageURL'])) { // Check if the image is arriving as a new image object or as a string
-                $imageString = $body['imageURL']['value'];
-                $imageType = $body['imageURL']['filetype'];
-                $imageData = 'data:' . $imageType . ';base64,' . $imageString;
-                $body['imageURL'] = $imageData;
-            }
-
             // Validate the data
             $validator = Validator::make($body, [
                 'title' => 'string',
@@ -140,6 +131,14 @@ class ProductController extends Controller
 
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422); // 422 means "Unprocessable Entity"
+            }
+
+            // Process image as it can arrive as a new image object or as a string
+            if (!is_string($body['imageURL']) && array_key_exists('value', $body['imageURL'])) { // Check if the image is arriving as a new image object or as a string
+                $imageString = $body['imageURL']['value'];
+                $imageType = $body['imageURL']['filetype'];
+                $imageData = 'data:' . $imageType . ';base64,' . $imageString;
+                $body['imageURL'] = $imageData;
             }
             
             // Update the product

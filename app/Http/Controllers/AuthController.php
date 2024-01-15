@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use ArrayObject;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -10,7 +11,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\PersonalAccessToken;
-
 
 class AuthController extends Controller
 {
@@ -37,9 +37,16 @@ class AuthController extends Controller
                 ], 401);
             }
 
-            // Process the image -> transform it to base64
-            $imageData = 'data:' . $body['profile_image']['filetype'] . ';base64,' . $body['profile_image']['value'];
-            $body['profile_image'] = $imageData;
+            // Process image as it can arrive as a new image object, as a string, or as an empty string
+            if ($body['profile_image'] instanceof ArrayObject && array_key_exists('value', $body['profile_image'])) { // Check if the image is arriving as a new image object or as a string
+                $imageString = $body['profile_image']['value'];
+                $imageType = $body['profile_image']['filetype'];
+                $imageData = 'data:' . $imageType . ';base64,' . $imageString;
+                $body['profile_image'] = $imageData;
+            }
+            if(!is_string($body['profile_image'])) {
+                $body['profile_image'] = null;
+            }
 
             // Create the user in the database
             $user = User::create($body);
